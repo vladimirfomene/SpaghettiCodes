@@ -1,0 +1,17 @@
+{
+  "name": "spaghetticodes",
+  "version": "1.0.0",
+  "author": "Mthabisi Ndlovu & Vladimir Fomene",
+  "private": true,
+  "scripts": {
+    "build": "npm install",
+    "start": "node app.js"
+  },
+  "dependencies": {
+    "body-parser": "~1.13.2",
+    "bookshelf": "^0.10.4",
+    "express": "~4.13.1",
+    "knex": "^0.13.0",
+    "mysql": "^2.15.0"
+  }
+}
