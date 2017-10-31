@@ -8,7 +8,7 @@ exports.getUserById = function(req, res){
     return res.json(user);
   }).catch(function(e){
     console.log(e.stack);
-    res.json(404, {error: e.message});
+    res.status(404).json({error: e.message});
   });
 }
 
@@ -18,16 +18,58 @@ exports.getAllUsers = function(req, res){
     return res.json(users);
   }).catch(function(e){
     console.log(e.stack)
-    res.json(404, {error: e.message});
+    res.status(404).json({error: e.message});
+  })
+}
+
+/* This function creates a new user*/
+exports.createUser = function(req, res, next) {
+  var userData = {}
+  var errors = {}
+  if (req.body.username !== ' ' && typeof req.body.username === 'string')
+    userData.username = req.body.username;
+    else {
+      errors.username_error = 'Invalid username.';
+    }
+  if (req.body.password !== ' ' && typeof req.body.password === 'string')
+    userData.password = req.body.password;
+    else {
+      errors.password_error = 'Invalid password.';
+    }
+  if (req.body.facebook_ref !== ' ' && typeof req.body.facebook_ref === 'string')
+    userData.facebook_ref = req.body.facebook_ref;
+    else {
+      errors.facebook_ref_error = 'Invalid facebook reference.';
+    }
+  if (req.body.admin === 0 || req.body.admin === 1 && typeof req.body.admin === 'number')
+    userData.admin = req.body.admin;
+    else {
+      errors.admin_error = 'Error in setting admin status.';
+    }
+  if (req.body.email) {
+    if (!(/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(req.body.email)))
+      errors.password_error = 'Invalid password.';
+    else {
+      userData.email = req.body.email;
+    }
+  }
+
+  new User(userData).save()
+  .then(function(user) {
+    return res.json(user);
+  }).catch(function(e){
+    console.log(e.stack);
+    if (errors !== {})
+    return res.json(errors);
   })
 }
 
 /* This function deletes a user from the database given his user id */
 exports.deleteUser = function(req, res){
   User.where('user_id', req.params.id).destroy().then(function(user) {
-    return res.json(user);
+    return res.status(200).json("User deleted.");
   }).catch(function(e){
     console.log(e.stack)
-    res.json(404, {error: e.message});
+    res.status(404).json({error: e.message});
   });
 }

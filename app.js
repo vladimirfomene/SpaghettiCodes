@@ -11,6 +11,7 @@ var router = express.Router();
 // log if in dev mode
 if (app.get('env') !== 'production') app.use(logger('dev'));
 
+app.use(bodyParser.json());
 
 app.get('/user/:id', users.getUserById);
 
@@ -18,6 +19,8 @@ app.get('/user/:id', users.getUserById);
 app.get('/users', users.getAllUsers);
 
 app.delete('/user/:id', users.deleteUser);
+
+app.post('/users', users.createUser);
 
 
 var server = app.listen(3000);
