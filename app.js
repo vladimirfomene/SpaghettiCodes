@@ -15,6 +15,11 @@ if (app.get('env') !== 'production') app.use(logger('dev'));
 app.get('/user/:id', users.getUserById);
 
 
+app.get('/users', users.getAllUsers);
+
+app.delete('/user/:id', users.deleteUser);
+
+
 var server = app.listen(3000);
 console.log('Listening at http://localhost:%s in %s mode',
     server.address().port, app.get('env'));
