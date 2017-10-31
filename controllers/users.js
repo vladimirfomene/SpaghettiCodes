@@ -73,3 +73,17 @@ exports.deleteUser = function(req, res){
     res.status(404).json({error: e.message});
   });
 }
+
+exports.updateUser = function(req, res) {
+  var current_timestamp = new Date();
+  User.where('user_id', req.params.id).save({
+    username: req.body.username,
+    email: req.body.email,
+    password: req.body.password,
+    facebook_ref: req.body.facebook_ref,
+    admin: req.body.admin,
+    updated_at: current_timestamp
+  }, {patch: true }).then(function(user) {
+    return res.json(user)
+  });
+}

@@ -22,6 +22,8 @@ app.delete('/user/:id', users.deleteUser);
 
 app.post('/users', users.createUser);
 
+app.put('/user/:id', users.updateUser);
+
 
 var server = app.listen(3000);
 console.log('Listening at http://localhost:%s in %s mode',
