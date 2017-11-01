@@ -65,6 +65,7 @@ exports.createUser = function(req, res, next) {
 }
 
 /* This function deletes a user from the database given his user id */
+//TODO: reset user_id on-delete
 exports.deleteUser = function(req, res){
   User.where('user_id', req.params.id).destroy().then(function(user) {
     return res.status(200).json("User deleted.");
