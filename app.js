@@ -4,6 +4,7 @@ const path = require('path');
 const logger = require('morgan');
 const users = require('./controllers/users');
 const reviews = require('./controllers/reviews');
+const review_votes = require('./controllers/votes');
 
 var app = express();
 var router = express.Router();
@@ -34,6 +35,18 @@ app.get('/review/:id', reviews.getReviewById);
 app.get('/reviews/post/:id', reviews.getAllReviewsByPost);
 
 app.get('/reviews/user/:id', reviews.getAllReviewsByUser);
+
+//review_vote functions
+
+app.post('/votes', review_votes.createVote);
+
+app.put('/vote/:id', review_votes.updateVote);
+
+app.delete('/vote/:id', review_votes.deleteVote);
+
+app.get('/votes/review/:id', review_votes.getVotesByReviewId);
+
+app.get('/votes/user/:id', review_votes.getVotesByUserId);
 
 var server = app.listen(3000);
 console.log('Listening at http://localhost:%s in %s mode',
