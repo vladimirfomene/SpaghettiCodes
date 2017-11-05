@@ -5,6 +5,8 @@ const logger = require('morgan');
 const users = require('./controllers/users');
 const reviews = require('./controllers/reviews');
 const review_votes = require('./controllers/votes');
+const ratings = require('./controllers/ratings');
+const rating_categories = require('./controllers/rating_categories');
 
 var app = express();
 var router = express.Router();
@@ -47,6 +49,30 @@ app.delete('/vote/:id', review_votes.deleteVote);
 app.get('/votes/review/:id', review_votes.getVotesByReviewId);
 
 app.get('/votes/user/:id', review_votes.getVotesByUserId);
+
+//rating functions
+
+app.post('/ratings', ratings.createRating);
+
+app.put('/rating/:id', ratings.updateRating);
+
+app.get('/rating/:id', ratings.getRatingById);
+
+app.get('/ratings/user/:id', ratings.getAllRatingsByUserId);
+
+app.get('/ratings/post/:id', ratings.getAllRatingsByPostId);
+
+app.get('/ratings/rating_category/:id', ratings.getAllRatingsByRatingCategoryId);
+
+//rating category functions
+
+app.post('/rating_categories', rating_categories.createRatingCategory);
+
+app.get('/rating_category/:id', rating_categories.getRatingCategoryById);
+
+app.put('/rating_category/:id', rating_categories.updateRatingCategory);
+
+app.delete('/rating_category/:id', rating_categories.deleteRatingCategory);
 
 var server = app.listen(3000);
 console.log('Listening at http://localhost:%s in %s mode',
