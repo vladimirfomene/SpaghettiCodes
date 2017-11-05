@@ -76,15 +76,41 @@ exports.deleteUser = function(req, res){
 }
 
 exports.updateUser = function(req, res) {
+  var userData = {};
+  var errors = {};
   var current_timestamp = new Date();
-  User.where('user_id', req.params.id).save({
-    username: req.body.username,
-    email: req.body.email,
-    password: req.body.password,
-    facebook_ref: req.body.facebook_ref,
-    admin: req.body.admin,
-    updated_at: current_timestamp
-  }, {patch: true }).then(function(user) {
+
+  if (req.body.username !== ' ' && typeof req.body.username === 'string')
+    userData.username = req.body.username;
+    else {
+      errors.username_error = 'Invalid username.';
+    }
+  if (req.body.password !== ' ' && typeof req.body.password === 'string')
+    userData.password = req.body.password;
+    else {
+      errors.password_error = 'Invalid password.';
+    }
+  if (req.body.facebook_ref !== ' ' && typeof req.body.facebook_ref === 'string')
+    userData.facebook_ref = req.body.facebook_ref;
+    else {
+      errors.facebook_ref_error = 'Invalid facebook reference.';
+    }
+  if (req.body.admin === 0 || req.body.admin === 1 && typeof req.body.admin === 'number')
+    userData.admin = req.body.admin;
+    else {
+      errors.admin_error = 'Error in setting admin status.';
+    }
+  if (req.body.email) {
+    if (!(/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(req.body.email)))
+      errors.password_error = 'Invalid password.';
+    else {
+      userData.email = req.body.email;
+    }
+  }
+
+  userData.updated_at = current_timestamp;
+
+  User.where('user_id', req.params.id).save( userData, {patch: true }).then(function(user) {
     return res.json(user)
   });
 }

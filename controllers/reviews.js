@@ -33,9 +33,10 @@ exports.createReview = function(req, res) {
   })
 }
 
+//fix this...
 exports.getReviewById = function(req, res) {
-  Review.where('review_id', req.params.id).fetch()
-  .then(function(review) {
+  Review.where('review_id', req.params.id).fetch({withRelated: ['User']}).then(function(review) {
+    res.json(review.related('User'));
     return res.json(review);
   }).catch(function(e){
     console.log(e.stack)
