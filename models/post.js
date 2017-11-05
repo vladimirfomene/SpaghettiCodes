@@ -11,7 +11,7 @@ var Post = Model.extend({
   },
 
   interest: function(){
-    return this.belongsToMany(require('./interest'));
+    return this.hasMany(require('./interest'));
   }
 });
 

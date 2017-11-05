@@ -5,7 +5,7 @@ var User = Model.extend({
     tableName : 'users',
 
     interest : function(){
-      return this.belongsToMany(require('./interest'));
+      return this.hasMany(require('./interest'));
     },
 
     post : function(){
